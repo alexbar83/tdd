@@ -13,6 +13,6 @@ feature 'User can logout', "
     click_on 'Sign_out'
 
     expect(page).to have_content 'Signed out successfully.'
-    expect(current_path). to eq root_path
+    expect(current_path).to eq root_path
   end
 end
