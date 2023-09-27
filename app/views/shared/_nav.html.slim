@@ -1,0 +1,10 @@
+ul 
+li
+  a= link_to "Back", root_path 
+li 
+  a= link_to "Sign_out", destroy_user_session_path,method: :delete 
+li 
+  a= link_to "Log_in", new_user_session_path 
+li 
+  a= link_to "Registr", new_user_registration_path 
+ 
