@@ -1,6 +1,6 @@
 class AnswersController < ApplicationController 
   before_action :authenticate_user!, except: %i[show] 
-  before_action :set_answer, only: %i[show destroy]
+  before_action :set_answer, only: %i[show destroy update]
   
   def index; end
 
@@ -9,21 +9,18 @@ class AnswersController < ApplicationController
   def show; end  
 
   def create 
-    question = Question.find(params[:question_id])
+    @question = Question.find(params[:question_id])
 
-    @answer = question.answers(answer_params)
-    @answer.user = current_user
-
-    if @answer.save  
-      redirect_to question_answers_path  
-    else  
-      render :new 
-    end
+    @answer = @question.answers.create(answer_params)
+    @answer.user = current_user 
   end  
 
   def edit;end 
 
-  def update; end 
+  def update
+    @answer.update(answer_params)
+    @question = @answer.question
+  end 
 
   def destroy
     if current_user&.author?(@answer) 

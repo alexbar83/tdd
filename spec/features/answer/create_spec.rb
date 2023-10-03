@@ -9,18 +9,20 @@ feature 'User can write answers for question', %q{
   given(:user) { create(:user) }
   given(:question) { create(:question, user: user}
 
-  describe 'Authenticated user can write question' do
+  describe 'Authenticated user can write answer' do
     background do
       sign_in(user)
 
       visit questions_path(question.id)
     end
 
-    scenario 'write an answer' do
+    scenario 'write an answer', js: true do
       fill_in 'answer[body]', with: 'text text text'
       click_on 'Write answer'
-
-      expect(page).to have_content 'text text text'
+      expect(current_path).to eq question_path(question)
+        within '.answers' do 
+      expect(page).to have_content 'text text text' 
+      end
     end
   end
 
@@ -31,7 +33,7 @@ feature 'User can write answers for question', %q{
     expect(page).to have_content 'log in'
   end 
 
-  scenario 'write answer with errors' do 
+  scenario 'write answer with errors', js: true do 
     sign_in(user)
     visit questions_path(question.id)
     click_on 'Write answer'

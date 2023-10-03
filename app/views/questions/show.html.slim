@@ -1,13 +1,13 @@
 h1= @question.title
-p= @question.body  
+p= @question.body
 
-- if current_user&.author?(@question) 
-= button_to "Delete question", question_path(@question), method: :delete
+.answers
+  = render @question.answers
 
-h2 Questions answers 
-= render @question.answers 
-- if user_signed_in? 
-  = render 'answers/form' 
-- else 
-  p= link_to "Sign in to write an answer", new_user_session_path 
+.answer-errors
+  = render 'shared/errors', resource: @answer
+= form_with model: [@question, @answer], class: 'new-answer' do |f|
+  = f.label :body, 'Your answer'
+  = f.text_area :body
+  = f.submit 'Create'
   
