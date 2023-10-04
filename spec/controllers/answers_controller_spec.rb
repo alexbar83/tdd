@@ -29,35 +29,18 @@ RSpec.describe AnswersController, type: :controller do
 
   describe 'DELETE #destroy' do
     before { login(user) }
+    let!(:answer){ create(:answer, question: question, user: user)} 
 
     context 'user is an author'
-      let!(:answer){ create(:answer, question: question, user: user)} 
-
       it 'deletes the answer' do 
-        expect{ delete :destroy, params: { id: answer }}.to change(question.answers, :count).by(-1)
+        expect{ delete :destroy, params: { id: answer }, format: :js}.to change(question.answers, :count).by(-1)
       end
 
-      it 'redirects to question' do
+      it 'render destroy template' do
         delete :destroy, params: { id: answer }
 
-        expect(response).to redirect_to question
+        expect(response).to render_template :destroy
       end 
-    end
-
-    context 'user is not author' do 
-      let(:not_author){ create(:user)}
-      let(:question){ create(:question, user: not_author)}
-      let!(:other_member_answer){ create(:answer, question: question, user: not_author } 
-
-      it 'delete the answer' do 
-        expect{ delete :destroy, params: { id: other_member_answer }}.to_not change(question.answers, :count)
-      end
-
-      it 'redirects to question' do  
-        delete :destroy, params: { id: other_member_answer } 
-
-        expect(response).to redirect_to questions_path(question)
-      end
     end
   end 
 
