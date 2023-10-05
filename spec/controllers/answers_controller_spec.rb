@@ -1,10 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
-  let(:question) { create :question }
+  let(:user) { create (:user)}
+  let(:question) { create(:question, user: user}
 
   describe 'POST #create' do
     context 'with valid attributes' do
+      before { login(:user)}
+
       it 'saves the new answer in the database' do
         expect { post :create, params: { answer: attributes_for(:answer), question_id: question }, format: :js }.to change(question.answers, :count).by(1)
       end
@@ -16,6 +19,8 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     context 'with invalid attributes' do
+      before { login(:user)}
+
       it 'does not save the question' do
         expect { post :create, params: { answer: attributes_for(:answer, :invalid), question_id: question }, format: :js }.to_not change(Answer, :count)
       end
@@ -46,7 +51,8 @@ RSpec.describe AnswersController, type: :controller do
 
 
   describe 'PATCH #update' do
-    let!(:answer) { create(:answer, question: question) }
+    before { login(user) }
+    let!(:answer) { create(:answer, question: question, user: user) }
 
     context 'with valid attributes' do
       it 'changes answer attributes' do
@@ -72,6 +78,38 @@ RSpec.describe AnswersController, type: :controller do
         patch :update, params: { id: answer, answer: attributes_for(:answer, :invalid) }, format: :js
         expect(response).to render_template :update
       end
+    end
+  end
+
+  describe "POST #best" do 
+    let(:member) { create(:user) } 
+    let!(:question) { create(:question, user: user) } 
+    let!(:answer) { create(:answer, question: question, user: user) } 
+
+    context "authenticated user is author" do 
+      before { login(user) } 
+
+      it "select answer as best" do 
+        post :best, params { id: answer, format: :js }
+        answer.reload 
+        expect(answer).to be_best 
+      end 
+
+      it "render best template" do 
+        post :best, params { id: answer, format: :js }
+        answer.reload 
+        expect(response).to render_template :best
+      end 
+    end 
+
+    context "authenticated user is member" do 
+      before { login(user) } 
+
+      it "can not select the best answer" do 
+        post :best, params { id: answer, format: :js }
+        answer.reload 
+        expect(answer).to_not be_best 
+      end 
     end
   end
 end
