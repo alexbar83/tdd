@@ -23,6 +23,10 @@ RSpec.describe QuestionsController, type: :controller do
 
     it 'assigns the requested question to @question' do
       expect(assigns(:question)).to eq question
+    end 
+
+    it 'assigns new answer for question' do
+      expect(assigns(:answer)).to be_a_new(Answer)
     end
 
     it 'renders show view' do
@@ -91,12 +95,12 @@ RSpec.describe QuestionsController, type: :controller do
 
     context 'with valid attributes' do
       it 'assigns the requested question to @question' do
-        patch :update, params: { id: question, question: attributes_for(:question) }
+        patch :update, params: { id: question, question: attributes_for(:question) }, format: :js
         expect(assigns(:question)).to eq question
       end
 
       it 'changes question attributes' do
-        patch :update, params: { id: question, question: { title: 'new title', body: 'new body' } }
+        patch :update, params: { id: question, question: { title: 'new title', body: 'new body' } }, format: :js
         question.reload
 
         expect(question.title).to eq 'new title'
@@ -104,13 +108,13 @@ RSpec.describe QuestionsController, type: :controller do
       end
 
       it 'redirects to updated question' do
-        patch :update, params: { id: question, question: attributes_for(:question) }
+        patch :update, params: { id: question, question: attributes_for(:question) }, format: :js
         expect(response).to redirect_to question
       end
     end
 
     context 'with invalid attributes' do
-      before { patch :update, params: { id: question, question: attributes_for(:question, :invalid) } }
+      before { patch :update, params: { id: question, question: attributes_for(:question, :invalid) }, format: :js }
 
       it 'does not change question' do
         question.reload
@@ -120,23 +124,40 @@ RSpec.describe QuestionsController, type: :controller do
       end
 
       it 're-renders edit view' do
-        expect(response).to render_template :edit
+        expect(response).to render_template :update
       end
     end
   end
 
   describe 'DELETE #destroy' do
-    before login(user)
+    before {login(user)}
 
-    let!(:question) { create(:question) }
+    context "User is author" do
+      let!(:question) { create(:question, user :user) }
 
-    it 'deletes the question' do
-      expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
+      it 'deletes the question' do
+        expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
+      end
+
+      it 'redirects to index' do
+        delete :destroy, params: { id: question }
+        expect(response).to redirect_to questions_path
+      end
     end
 
-    it 'redirects to index' do
-      delete :destroy, params: { id: question }
-      expect(response).to redirect_to questions_path
+    context "User not author question" do 
+      let(:not_an_author) { create(:user) }
+      let(:question) { create(:question, user: not_an_author)}
+      let(:other_member_question){ create :question, user: not_an_author}
+
+      it 'do not delete the question' do
+        expect { delete :destroy, params: { id: other_member_question } }.to_not change(Question, :count)
+      end
+
+      it 'redirects to question' do
+        delete :destroy, params: { id: question }
+        expect(response).to redirect_to questions_path(question)
+      end
     end
   end
 end

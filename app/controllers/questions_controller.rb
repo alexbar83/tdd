@@ -6,7 +6,9 @@ class QuestionsController < ApplicationController
     @questions = Question.all
   end
 
-  def show; end
+  def show
+    @answer = Answer.new
+  end
 
   def new
     @question = Question.new
@@ -25,19 +27,15 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    if @question.update(question_params)
-      redirect_to @question
-    else
-      render :edit
-    end
+    @question.update(question_params)
   end
 
   def destroy
     if current_user&.author(@question)
       @question.destroy
-      redirect_to questions_path, notice: "Question deleted" 
-    else  
-      redirect_to @question 
+      redirect_to questions_path, notice: 'Question deleted'
+    else
+      redirect_to @question
     end
   end
 

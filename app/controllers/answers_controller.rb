@@ -1,48 +1,50 @@
-class AnswersController < ApplicationController 
-  before_action :authenticate_user!, except: %i[show] 
-  before_action :set_answer, only: %i[show destroy]
-  
+class AnswersController < ApplicationController
+  before_action :authenticate_user!, except: %i[show]
+  before_action :set_answer, only: %i[show destroy update best]
+
   def index; end
 
-  def new; end  
+  def new; end
 
-  def show; end  
+  def show; end
 
-  def create 
-    question = Question.find(params[:question_id])
+  def create
+    @question = Question.find(params[:question_id])
 
-    @answer = question.answers(answer_params)
+    @answer = @question.answers.create(answer_params)
     @answer.user = current_user
-
-    if @answer.save  
-      redirect_to question_answers_path  
-    else  
-      render :new 
-    end
-  end  
-
-  def edit;end 
-
-  def update; end 
-
-  def destroy
-    if current_user&.author?(@answer) 
-      @answer.destroy
-      redirect_to question_path(@answer.question), notice: "answer deleted" 
-    else 
-      redirect_to question_path(@answer.question) 
-    end
-
   end
 
-  private  
+  def edit; end
 
-  def set_answer 
+  def update
+    @answer.update(answer_params)
+    @question = @answer.question
+  end
+
+  def best
+    if current_user.author?(@answer.question)
+      @answer.best!
+    else
+      redirect_to @answer.question
+    end
+  end
+
+  def destroy
+    if current_user&.author?(@answer)
+      @answer.destroy
+    else
+      redirect_to @answer.question
+    end
+  end
+
+  private
+
+  def set_answer
     @answer = Answer.find(params[:id])
   end
 
-  def answer_params 
+  def answer_params
     params.require(:answer).permit(:body)
   end
-
 end

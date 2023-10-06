@@ -1,4 +1,4 @@
-strong Questions 
-p= render @questions
+- if user_signed_in?
+  p= render @questions
 
-p= link_to 'Ask question', new_question_path 
+  p= link_to 'Ask question', new_question_path 
