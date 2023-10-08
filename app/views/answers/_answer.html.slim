@@ -17,7 +17,9 @@ div class = "answer-#{answer.id}
     = f.text_area :body
     = f.label :files 
     = f.file_field :files; multiple: true
-    = f.submit 'Save' 
+    = f.submit 'Save'  
+
+  = render 'shared/attachment', resource: answer
 
   -if current_user&.author?(answer.question) && !answer.best? 
   p= link_to "Choose the best", best_answer_path(answer) 

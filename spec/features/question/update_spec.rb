@@ -15,6 +15,21 @@ feature 'Authenticated user can edit his question', "
     expect(page).to_not have_link 'Edit question'
   end
 
+  scenario 'author trying to edit question with attached files', js: true do 
+    sign_in(author)
+    visit questions_path(question)
+    click_on 'Edit Question' 
+
+    within '.question' do
+      attach_file 'question[files][]', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
+      click_on 'Save'
+
+      expect(page).to have_link 'rails_helper.rb'
+      expect(page).to have_link 'spec_helper.rb' 
+    end
+  end
+
+
   scenario 'Author trying edit question', js: true do
     sign_in(author)
     visit question_path(question)
