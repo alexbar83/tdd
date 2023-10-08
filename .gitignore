@@ -29,6 +29,12 @@
 /config/master.key
 /config/database.yml 
 
+.idea 
+.env
+
+aws_s3_credentials.csv 
+config/credentials.yml.enc
+
 /public/packs
 /public/packs-test
 /node_modules

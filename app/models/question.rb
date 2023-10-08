@@ -4,5 +4,5 @@ class Question < ApplicationRecord
 
   has_many_attached :files
 
-  validates :title, :body, presence: true 
+  validates :title, :body, presence: true
 end
