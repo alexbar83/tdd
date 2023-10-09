@@ -1,7 +1,12 @@
 .question-title 
   h1= @question.title
 .question-body
-  p= @question.body
+  p= @question.body 
+
+- if @question.files.attached?
+  - @question.files.each do |file|
+    p= link_to file.filename.to_s, url_for(file) 
+    
 .question 
   -if current_user&.author?(@question) 
     = link_to "Edit question", #, class: "edit-question-link", data: {question_id: question.id}
@@ -13,7 +18,12 @@
   = f.text_field :title
   = f.label :body
   = f.text_area :body
-  = f.submit 'Save'
+  = f.label :files 
+  = f.file_field :files, multiple: true
+  = f.submit 'Save' 
+
+.attachment 
+  = render 'shared/attachment', resource: @question
 
 h1= Answers 
 
@@ -26,5 +36,7 @@ h1= Answers
 = form_with model: [@question, @answer], class: 'new-answer' do |f|
   = f.label :body, 'Your answer'
   = f.text_area :body
+  = f.label :files 
+  = f.file_field :files, multiple: true
   = f.submit 'Create'
   

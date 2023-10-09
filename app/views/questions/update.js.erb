@@ -1,0 +1,9 @@
+<%= if !@question.errors.present? %> 
+  $('.question-title').text('<%= question.title %>');
+  $('.question-body').text('<%= question.body %>') ;
+  $('.attachment').html('<%= render shared/attachment, resource: @question %>') 
+  $('.form#edit-question-' + <%= @question.id %>).addClass('hidden');
+  $('.edit-question-link').show() 
+  $('.#question-title').val(' '); 
+  $('.#question-body').val(' '); 
+<% end %> 
