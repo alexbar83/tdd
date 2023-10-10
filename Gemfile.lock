@@ -150,6 +150,8 @@ GEM
     mini_portile2 (2.8.4)
     minitest (5.20.0)
     msgpack (1.7.2)
+    net-http (0.3.2)
+      uri
     net-imap (0.3.7)
       date
       net-protocol
@@ -305,6 +307,7 @@ GEM
     tzinfo (1.2.11)
       thread_safe (~> 0.1)
     unicode-display_width (2.4.2)
+    uri (0.10.0)
     warden (1.2.9)
       rack (>= 2.0.9)
     web-console (4.2.1)
@@ -343,6 +346,7 @@ DEPENDENCIES
   jquery-rails
   launchy
   listen (~> 3.2)
+  net-http
   pg (>= 0.18, < 2.0)
   puma (~> 4.1)
   rails (~> 6.0.4)
