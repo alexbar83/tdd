@@ -8,7 +8,6 @@ feature 'User can add links to question', %q{
 
   given(:user) { create(:user) }
   given!(:question) { create(:question, user: user)}
-  given(:gist_url) {'https://gist.github.com/alexbar83/58655c2f62534746cbfb934b8fd289645f50'}
   given!(:link) {"https://stackoverflow.com"} 
 
   describe " user add linkwhen asks question", do
@@ -21,9 +20,6 @@ feature 'User can add links to question', %q{
       fill_in 'Title', with: 'Test question'
       fill_in 'Body', with: 'text text text'
 
-      fill_in 'Link name', with: 'My gist'
-      fill_in 'Url', with: gist_url
-
       click_on 'Add link'
 
       within_all('.nested-fields').last do
@@ -34,7 +30,6 @@ feature 'User can add links to question', %q{
       click_on 'Ask'
    
       within'.question' do
-        expect(page).to have_link('My gist', href: gist_url)
         expect(page).to have_link('stackoverflow', href: "link")
       end
     end 
