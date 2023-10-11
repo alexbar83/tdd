@@ -12,7 +12,15 @@
   ul
     - @question.links.each do |link|
       li= link_to link.name, link.url
-    
+- if @question.links.present? 
+   p links: 
+    ul 
+      -@question.links.each do |link| 
+      li= link_to link.name, link url 
+      - if link.gist_link? 
+      script src="#{link.url}.js"
+      -else 
+      li= link_to link.name, link.url  
 .question 
   -if current_user&.author?(@question) 
     = link_to "Edit question", #, class: "edit-question-link", data: {question_id: question.id}

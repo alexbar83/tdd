@@ -8,23 +8,52 @@ feature 'User can add links to answer', %q{
 
   given(:user) {create(:user)}
   given!(:question) {create(:question)}
-  given(:gist_url) {'https://gist.github.com/vkurennov/743f9367caa1039874af5a2244e1b44c'}
+  given(:gist_url) {'https://gist.github.com/alexbar83/58655c2f62534746cbfb934b8fd289645f50'}
+  given!(:link) {"https://stackoverflow.com"} 
 
-  scenario 'User adds link when give an answer', js: true do
-    sign_in(user)
-
-    visit question_path(question)
-
-    fill_in 'Your answer', with: 'My answer'
+  describe "authenticated user can write questions", js: true do
+    background do 
+      sign_in(user) 
+      visit question_path(question) 
+    end 
+  scenario 'write answer with link', js: true do
+    fill_in 'answer[body]', with: 'text text text'
 
     fill_in 'Link name', with: 'My gist'
     fill_in 'Url', with: gist_url
 
+    click_on 'Add link'
+
+    within_all('.nested-fields').last do
+      fill_in 'Link name', with: 'stackoverflow'
+      fill_in 'Url', with: gist_url 
+    end 
+
     click_on 'Create'
-
-    within '.answers' do
-      expect(page).to have_link 'My gist', href: gist_url
+    expect(current_path).to eq question_path(question)
+    expect(page).to have_content 'text text text'
+     
+    within'.answers' do
+      expect(page).to have_link('My gist', href: gist_url)
+      expect(page).to have_link('stackoverflow', href: "link")
     end
-  end
+  end 
+  
+  scenario 'write answer with err link',  do
+    fill_in 'answer[body]', with: 'text text text'
 
+    fill_in 'Link name', with: "My gist"
+    fill_in 'Url', with: "String"
+
+    click_on 'Add link'
+
+    within_all('.nested-fields').last do
+      fill_in 'Link name', with: 'stackoverflow'
+      fill_in 'Url', with: 'not-link' 
+    end 
+
+    click_on 'Create'
+    expect(current_path).to eq question_path(question)
+    expect(page).to have_content 'Links url is not valid url'
+  end 
 end 

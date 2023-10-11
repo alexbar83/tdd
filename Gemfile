@@ -9,6 +9,8 @@ gem 'rails', '~> 6.0.4'
 gem "net-http"
 gem 'pg', '>= 0.18', '< 2.0'
 gem "cocoon"
+gem 'pry'
+gem "validate_url"
 # Use Puma as the app server
 gem 'puma', '~> 4.1'
 # Use SCSS for stylesheets
