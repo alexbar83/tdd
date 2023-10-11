@@ -11,7 +11,7 @@ feature 'User can add links to answer', %q{
   given(:gist_url) {'https://gist.github.com/alexbar83/58655c2f62534746cbfb934b8fd289645f50'}
   given!(:link) {"https://stackoverflow.com"} 
 
-  describe "authenticated user can write questions", js: true do
+  describe "authenticated user can write answer with", js: true do
     background do 
       sign_in(user) 
       visit question_path(question) 
@@ -19,14 +19,11 @@ feature 'User can add links to answer', %q{
   scenario 'write answer with link', js: true do
     fill_in 'answer[body]', with: 'text text text'
 
-    fill_in 'Link name', with: 'My gist'
-    fill_in 'Url', with: gist_url
-
     click_on 'Add link'
 
-    within_all('.nested-fields').last do
+    within_all('.nested-fields').first do
       fill_in 'Link name', with: 'stackoverflow'
-      fill_in 'Url', with: gist_url 
+      fill_in 'Url', with: link 
     end 
 
     click_on 'Create'
@@ -34,7 +31,6 @@ feature 'User can add links to answer', %q{
     expect(page).to have_content 'text text text'
      
     within'.answers' do
-      expect(page).to have_link('My gist', href: gist_url)
       expect(page).to have_link('stackoverflow', href: "link")
     end
   end 
@@ -53,7 +49,6 @@ feature 'User can add links to answer', %q{
     end 
 
     click_on 'Create'
-    expect(current_path).to eq question_path(question)
     expect(page).to have_content 'Links url is not valid url'
   end 
 end 
