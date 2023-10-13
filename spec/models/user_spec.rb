@@ -1,14 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  let(:users) { create(:user) }
-  it { should have_many(:questions) }
-  it { should have_many(:answers) }
+  it { should have_many(:questions).dependent(:destroy) }
+  it { should have_many(:answers).dependent(:destroy) }
+  it { should have_many(:awards) }
 
   it { should validate_presence_of :email }
   it { should validate_presence_of :password }
 
-  describe 'Author of question?' do
+ describe 'Author of question?' do
     let(:any_user) { create(:user) }
     let(:question) { create(:question, user: user) }
 

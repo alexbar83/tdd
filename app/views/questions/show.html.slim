@@ -6,22 +6,20 @@
 - if @question.files.attached?
   - @question.files.each do |file|
     p= link_to file.filename.to_s, url_for(file) 
-    
+
+.links
+  p Links:
+  ul
+    - @question.links.each do |link|
+      li= link_to link.name, link.url
+ 
 .question 
   -if current_user&.author?(@question) 
     = link_to "Edit question", #, class: "edit-question-link", data: {question_id: question.id}
 .question-errors 
   = render 'shared/errors', resource: @question
 
-= form_with model: @question, class: 'hidden', html: { id: edit-question-#{@question.id}, local: false do |f|
-  = f.label :title
-  = f.text_field :title
-  = f.label :body
-  = f.text_area :body
-  = f.label :files 
-  = f.file_field :files, multiple: true
-  = f.submit 'Save' 
-
+  = render "edit_form"
 .attachment 
   = render 'shared/attachment', resource: @question
 
@@ -33,10 +31,15 @@ h1= Answers
 
 .answer-errors
   = render 'shared/errors', resource: @answer
-= form_with model: [@question, @answer], class: 'new-answer' do |f|
-  = f.label :body, 'Your answer'
-  = f.text_area :body
-  = f.label :files 
-  = f.file_field :files, multiple: true
+  = render "answers/form"
+  p Links:
+  p
+    = f.fields_for :links do |l|
+      p
+        = l.label :name, 'Link name'
+        = l.text_field :name
+      p
+        = l.label :url
+        = l.text_field :url
   = f.submit 'Create'
   

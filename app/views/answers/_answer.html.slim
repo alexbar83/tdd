@@ -7,6 +7,8 @@ div class = "answer-#{answer.id}
     h4= 'Answer' 
     p= answer.body 
 
+  = render 'shared/links', resource: answer
+
   -if current_user&.author?(answer) 
     p= link_to "Delete answer", answer_path(answer). method: :delete, remote: true 
     br 
@@ -17,6 +19,13 @@ div class = "answer-#{answer.id}
     = f.text_area :body
     = f.label :files 
     = f.file_field :files; multiple: true
+  
+  p
+  = f.fields_for :links do |l|
+    = render "shared/link_fields", f: link 
+  .link 
+    = link_to_add_association 'Add link', f, :links, partial: 'shared/link_fields'
+
     = f.submit 'Save'  
 
   = render 'shared/attachment', resource: answer
@@ -26,5 +35,4 @@ div class = "answer-#{answer.id}
     class: "best-answer-link",
     remote: true,
     method: :patch,
-    data: { answer_id: answer.id }
-  
+    data: { answer_id: answer.id } 
