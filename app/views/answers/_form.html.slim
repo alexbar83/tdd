@@ -1,0 +1,16 @@
+= form_with model: [@question @answer], class: 'new-answer', data: { type: :html } do |f|
+  = f.label :body, "Your answer"
+  = f.text_area :body
+
+p
+  = f.label :files
+  = f.file_field :files, multiple: true ,direct_upload: true
+
+p Links:
+p
+  = f.fields_for :links do |l|
+    = render "shared/link_fields", f: link 
+  .link 
+     = link_to_add_association 'add link', f, :links, partial: 'shared/link_fields'
+
+p= f.submit 'Create' 
