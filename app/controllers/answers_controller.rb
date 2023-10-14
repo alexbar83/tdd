@@ -14,16 +14,7 @@ class AnswersController < ApplicationController
     @answer = @question.answers.new(answer_params)
     @answer.user = current_user
 
-    respond_to do |format|
-      if @answer.save
-        format.html {render @answer}
-      else
-        format.html do
-          render partial: 'shared/errors', locals: { resource: @answer },
-                              status: :unprocessable_entity
-        end
-      end
-    end
+    @answer.save
   end
 
   def edit; end

@@ -2,6 +2,7 @@ div class = "answer-#{answer.id}
   - if answer.best? 
     .best_answer 
       h3= "Best answer" 
+      - if answer.question.award.present? 
       p= answer.body 
   else 
     h4= 'Answer' 
@@ -29,6 +30,7 @@ div class = "answer-#{answer.id}
     = f.submit 'Save'  
 
   = render 'shared/attachment', resource: answer
+  = render 'shared/voting', resource: answer
 
   -if current_user&.author?(answer.question) && !answer.best? 
   p= link_to "Choose the best", best_answer_path(answer) 
