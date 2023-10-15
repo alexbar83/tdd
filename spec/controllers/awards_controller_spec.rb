@@ -1,16 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe AwardsController, type: :controller do
- 
-
   describe 'GET #index' do
-  	let(:user) { create(:user) }
+    let(:user) { create(:user) }
     let!(:questions) { create(:question, user: user) }
-    let!(:awards){ create_list(:award, 1 , :with_image, question: question, user: user)}
+    let!(:awards) { create_list(:award, 1, :with_image, question: question, user: user) }
 
-    before do 
+    before do
       login(user)
-      get :index 
+      get :index
     end
 
     it 'assingsawards to @awards' do

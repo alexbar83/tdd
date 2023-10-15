@@ -11,8 +11,10 @@ class AnswersController < ApplicationController
   def create
     @question = Question.find(params[:question_id])
 
-    @answer = @question.answers.create(answer_params)
+    @answer = @question.answers.new(answer_params)
     @answer.user = current_user
+
+    @answer.save
   end
 
   def edit; end
@@ -45,6 +47,6 @@ class AnswersController < ApplicationController
   end
 
   def answer_params
-    params.require(:answer).permit(:body, files: [], links_attributes: [:id, :name, :url, :_destroy] )
+    params.require(:answer).permit(:body, files: [], links_attributes: %i[id name url _destroy])
   end
 end
