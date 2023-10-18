@@ -21,7 +21,7 @@ class ConfirmationsController < Devise::ConfirmationsController
     params.require(:user).permit(:email)
   end
 
-  def after_confirmation_path_for(resource_name, user)
+  def after_confirmation_path_for(_resource_name, user)
     provider_data = { provider: session[:provider], uid: session[:uid] }
     user.authorizations.create!(provider_data) if provider_data.values.all?
     session[:provider] = nil
@@ -30,4 +30,4 @@ class ConfirmationsController < Devise::ConfirmationsController
     sign_in(user, event: :authentication)
     signed_in_root_path(user)
   end
-end 
+end

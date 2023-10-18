@@ -4,7 +4,6 @@ feature 'User can comment on the question', "
  In order to comment a question
  As authenticated user
  I'd like to be able to write comments on a question" do
-
   given(:user) { create(:user) }
   given(:question) { create :question, user: user }
 
@@ -37,4 +36,4 @@ feature 'User can comment on the question', "
     expect(page).to_not have_content 'Add your comment'
     expect(page).to_not have_link 'Comment'
   end
-end 
+end

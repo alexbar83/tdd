@@ -7,7 +7,7 @@ ruby '2.7.0'
 gem 'rails', '~> 6.0.4'
 # Use postgresql as the database for Active Record
 gem 'cocoon'
-gem "gon"
+gem 'gon'
 gem 'net-http'
 gem 'pg', '>= 0.18', '< 2.0'
 gem 'pry'
@@ -32,13 +32,13 @@ gem 'jbuilder', '~> 2.7'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'aws-sdk-s3', require: false
 gem 'bootsnap', '>= 1.4.2', require: false
-gem 'devise', '4.9.2'
-gem 'omniauth'
-gem 'omniauth-vkontakte'
-gem 'omniauth-github'
-gem 'letter_opener'
 gem 'capybara-email'
+gem 'devise', '4.9.2'
 gem 'jquery-rails'
+gem 'letter_opener'
+gem 'omniauth'
+gem 'omniauth-github'
+gem 'omniauth-vkontakte'
 gem 'rubocop'
 gem 'slim-rails'
 gem 'twitter-bootstrap-rails'

@@ -43,8 +43,8 @@ feature 'User can create question', "
     end
   end
 
-  context "multiple sessions" do
-    scenario "question appears on another user" do
+  context 'multiple sessions' do
+    scenario 'question appears on another user' do
       Capybara.using_session('user') do
         sign_in(user)
         visit questions_path
@@ -61,8 +61,8 @@ feature 'User can create question', "
         save_and_open_page
         click_on 'Ask'
 
-        expect(page).to have_content 'Test question'  
-        expect(page).to have_content 'text text text'  
+        expect(page).to have_content 'Test question'
+        expect(page).to have_content 'text text text'
       end
 
       Capybara.using_session('guest') do

@@ -1,11 +1,9 @@
 class OauthCallbacksController < Devise::ConfirmationsController
-  before_action :sign_in_with_provider, only: %i(github vkontakte)
+  before_action :sign_in_with_provider, only: %i[github vkontakte]
 
-  def github
-  end
+  def github; end
 
-  def vkontakte
-  end
+  def vkontakte; end
 
   private
 
