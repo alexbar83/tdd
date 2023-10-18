@@ -2,6 +2,8 @@ class AnswersController < ApplicationController
   before_action :authenticate_user!, except: %i[show]
   before_action :set_answer, only: %i[show destroy update best]
 
+  after_action :publish_answer, only: :create
+
   def index; end
 
   def new; end
@@ -48,5 +50,15 @@ class AnswersController < ApplicationController
 
   def answer_params
     params.require(:answer).permit(:body, files: [], links_attributes: %i[id name url _destroy])
+  end
+
+  
+  def publish_answer
+    return if @answer.errors.any?
+
+    ActionCable.server.broadcast(
+      "questions/#{@answer.question_id}",
+      answer: @answer
+    )
   end
 end

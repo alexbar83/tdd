@@ -36,7 +36,30 @@ feature 'User can write answers for question', %q{
       expect(page).to have_link 'spec_helper.rb'
     end
   end
+  context 'multiple sessions' do
+    scenario "answer appears on another user's page" do
+      Capybara.using_session('user') do
+        sign_in(user)
+        visit question_path(question)
+      end
 
+      Capybara.using_session('guest') do
+        visit question_path(question)
+      end
+
+      Capybara.using_session('user') do
+        fill_in 'answer[body]', with: 'text text text'
+        click_on 'Create'
+
+        expect(current_path).to eq question_path(question)
+        expect(page).to have_content 'text text text'
+      end
+
+      Capybara.using_session('guest') do
+        expect(page).to have_content 'text text text'
+      end
+    end
+  end
   scenario 'Unauthenticated user tries to write an answer' do  
     visit questions_path(question.id)
     click_on 'Sign in write an answer' 
