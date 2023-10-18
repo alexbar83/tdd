@@ -34,6 +34,7 @@ gem 'aws-sdk-s3', require: false
 gem 'bootsnap', '>= 1.4.2', require: false
 gem 'devise', '4.9.2'
 gem 'omniauth'
+gem 'omniauth-vkontakte'
 gem 'omniauth-github'
 gem 'jquery-rails'
 gem 'rubocop'
