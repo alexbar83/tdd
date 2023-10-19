@@ -38,6 +38,4 @@ class CommentsController < ApplicationController
       comment: @comment
     )
   end
-
-end 
-
+end

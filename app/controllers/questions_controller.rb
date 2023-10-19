@@ -1,6 +1,6 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
-  before_action :load_question, only: %i[show edit update destroy] 
+  before_action :load_question, only: %i[show edit update destroy]
 
   after_action :publish_question, only: [:create]
 
@@ -50,16 +50,15 @@ class QuestionsController < ApplicationController
 
   def publish_question
     return if @question.errors.any?
-    ActionCable.server.broadcast( 
+
+    ActionCable.server.broadcast(
       'questions',
       ApplicationController.render(
         partial: 'questions/question',
-        locals: {question: @question}
+        locals: { question: @question }
       )
     )
   end
-
-
 
   def load_question
     @question = Question.with_attached_files.find(params[:id])

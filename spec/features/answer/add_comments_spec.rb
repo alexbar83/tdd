@@ -4,7 +4,6 @@ feature 'User can comment answer', "
  In order to comment an answer
  As authenticated user
  I'd like to be able to write comments to an answer" do
-
   given(:user) { create(:user) }
   given(:question) { create :question, user: user }
   given!(:answer) { create :answer, question: question, user: user }
@@ -43,5 +42,4 @@ feature 'User can comment answer', "
       expect(page).to_not have_content 'Add your comment'
     end
   end
-
-end 
+end

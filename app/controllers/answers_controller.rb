@@ -52,7 +52,6 @@ class AnswersController < ApplicationController
     params.require(:answer).permit(:body, files: [], links_attributes: %i[id name url _destroy])
   end
 
-  
   def publish_answer
     return if @answer.errors.any?
 
