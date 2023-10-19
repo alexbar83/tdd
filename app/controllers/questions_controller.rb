@@ -4,9 +4,9 @@ class QuestionsController < ApplicationController
 
   after_action :publish_question, only: [:create]
 
-  include Voted
-
   authorize_resource
+
+  include Voted
 
   def index
     @questions = Question.all
@@ -40,12 +40,8 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    if current_user&.author(@question)
-      @question.destroy
-      redirect_to questions_path, notice: 'Question deleted'
-    else
-      redirect_to @question
-    end
+    @question.destroy
+    redirect_to questions_path, notice: 'Question deleted'
   end
 
   private
