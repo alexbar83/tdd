@@ -2,7 +2,7 @@ class AnswersController < ApplicationController
   before_action :authenticate_user!, except: %i[show]
   before_action :set_answer, only: %i[show destroy update best]
 
-  after_action :publish_answer, only: :create 
+  after_action :publish_answer, only: :create
 
   authorize_resource
 
