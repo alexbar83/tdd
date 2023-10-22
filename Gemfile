@@ -39,6 +39,7 @@ gem 'letter_opener'
 gem 'omniauth'
 gem 'omniauth-github'
 gem 'omniauth-vkontakte'
+gem "cancancan"
 gem 'rubocop'
 gem 'slim-rails'
 gem 'twitter-bootstrap-rails'
