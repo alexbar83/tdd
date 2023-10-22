@@ -33,6 +33,8 @@ gem 'jbuilder', '~> 2.7'
 gem 'aws-sdk-s3', require: false
 gem 'bootsnap', '>= 1.4.2', require: false
 gem 'capybara-email'
+gem 'active_model_serializers', '~> 0.10'
+gem 'oj'
 gem 'devise', '4.9.2'
 gem 'jquery-rails'
 gem 'letter_opener'
@@ -40,6 +42,7 @@ gem 'omniauth'
 gem 'omniauth-github'
 gem 'omniauth-vkontakte'
 gem "cancancan"
+gem "doorkeeper"
 gem 'rubocop'
 gem 'slim-rails'
 gem 'twitter-bootstrap-rails'
