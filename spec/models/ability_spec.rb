@@ -1,5 +1,5 @@
 require 'rails_helper'
-require "cancan/matchers"
+require 'cancan/matchers'
 
 describe Ability, type: :model do
   subject(:ability) { Ability.new(user) }
@@ -44,7 +44,6 @@ describe Ability, type: :model do
     let(:question_other_file) { create(:question, :files, user: other) }
     let(:answer_file) { create(:answer, :files, user: user) }
     let(:answer_other_file) { create(:answer, :files, user: other) }
-
 
     it { should_not be_able_to :manage, :all }
     it { should be_able_to :read, :all }
@@ -93,4 +92,4 @@ describe Ability, type: :model do
     it { should be_able_to :destroy, answer_file.files.last }
     it { should_not be_able_to :destroy, answer_other_file.files.last }
   end
-end 
+end

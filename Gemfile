@@ -30,16 +30,19 @@ gem 'jbuilder', '~> 2.7'
 # gem 'image_processing', '~> 1.2'
 
 # Reduces boot times through caching; required in config/boot.rb
+gem 'active_model_serializers', '~> 0.10'
 gem 'aws-sdk-s3', require: false
 gem 'bootsnap', '>= 1.4.2', require: false
+gem 'cancancan'
 gem 'capybara-email'
 gem 'devise', '4.9.2'
+gem 'doorkeeper'
 gem 'jquery-rails'
 gem 'letter_opener'
+gem 'oj'
 gem 'omniauth'
 gem 'omniauth-github'
 gem 'omniauth-vkontakte'
-gem "cancancan"
 gem 'rubocop'
 gem 'slim-rails'
 gem 'twitter-bootstrap-rails'
