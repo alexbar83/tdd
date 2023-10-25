@@ -6,6 +6,7 @@ RSpec.describe Question, type: :model do
   it { should have_one(:award).dependent(:destroy) }
   it { should belong_to :user }
   it { should have_many(:comments).dependent(:destroy) }
+  it { should have_many(:subscriptions).dependent(:destroy) }
 
   it { should validate_presence_of :title }
   it { should validate_presence_of :body }
@@ -18,14 +19,13 @@ RSpec.describe Question, type: :model do
     expect(Question.new.files).to be_an_instance_of(ActiveStorage::Attached::Many)
   end
 
-  describe "reputation" do
+  describe 'reputation' do
     let(:user) { create :user }
     let(:question) { build(:question, user: user) }
 
-    it "calls Services::Reputation#calculate" do
+    it 'calls Services::Reputation#calculate' do
       expect(ReputationJob).to receive(:perform_later).with(question)
       question.save!
     end
-
   end
 end

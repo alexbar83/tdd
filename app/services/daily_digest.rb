@@ -4,4 +4,4 @@ class Services::DailyDigest
       DailyDigestMailer.digest(user).deliver_later
     end
   end
-end 
+end

@@ -34,9 +34,6 @@ gem 'active_model_serializers', '~> 0.10'
 gem 'aws-sdk-s3', require: false
 gem 'bootsnap', '>= 1.4.2', require: false
 gem 'cancancan'
-gem 'sidekiq'
-gem 'sinatra',require: false
-gem 'whenever', require: false
 gem 'capybara-email'
 gem 'devise', '4.9.2'
 gem 'doorkeeper'
@@ -47,8 +44,11 @@ gem 'omniauth'
 gem 'omniauth-github'
 gem 'omniauth-vkontakte'
 gem 'rubocop'
+gem 'sidekiq'
+gem 'sinatra', require: false
 gem 'slim-rails'
 gem 'twitter-bootstrap-rails'
+gem 'whenever', require: false
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: %i[mri mingw x64_mingw]

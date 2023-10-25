@@ -1,5 +1,3 @@
 class Services::Reputation
-  def self.calculate(object)
-
-  end
-end 
+  def self.calculate(object); end
+end
