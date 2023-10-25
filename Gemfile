@@ -34,6 +34,9 @@ gem 'active_model_serializers', '~> 0.10'
 gem 'aws-sdk-s3', require: false
 gem 'bootsnap', '>= 1.4.2', require: false
 gem 'cancancan'
+gem 'sidekiq'
+gem 'sinatra',require: false
+gem 'whenever', require: false
 gem 'capybara-email'
 gem 'devise', '4.9.2'
 gem 'doorkeeper'
